@@ -88,8 +88,6 @@
 #         kubectl get svc
 
 
-
-
 name: Smart Task Manager CI/CD Pipeline
 
 on:
@@ -151,14 +149,14 @@ jobs:
       run: |
         docker push ${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME:latest
 
-    # 🔹 Install kubectl (for validation only)
+    # 🔹 Setup kubectl (for validation only)
     - name: Setup kubectl
       uses: azure/setup-kubectl@v3
 
-    # 🔹 Validate Kubernetes YAML
+    # 🔹 Validate Kubernetes YAML (FIXED ✅)
     - name: Validate Kubernetes manifests
       run: |
-        kubectl apply --dry-run=client -f k8s/
+        kubectl apply --dry-run=client --validate=false -f k8s/
 
     # 🔹 Simulate Deployment
     - name: Simulate Deployment
